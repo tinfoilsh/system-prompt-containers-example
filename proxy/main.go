@@ -53,7 +53,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get upstream URL from the X-Tinfoil-Enclave-Url header (points to the function enclave)
+	// Get upstream URL from the X-Tinfoil-Enclave-Url header (points to the container enclave)
 	upstreamBase := r.Header.Get(enclaveURLHeader)
 	if upstreamBase == "" {
 		log.Println("Error: X-Tinfoil-Enclave-Url header not provided")
@@ -73,7 +73,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 		req.Header.Set("Accept", accept)
 	}
 
-	// Optional: forward API key if configured (for function-level auth)
+	// Optional: forward API key if configured (for container-level auth)
 	if apiKey := os.Getenv("TINFOIL_API_KEY"); apiKey != "" {
 		req.Header.Set("Authorization", "Bearer "+apiKey)
 	}
@@ -84,7 +84,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	// Required: Copy encryption headers from the client request
 	copyHeaders(req.Header, r.Header, ehbpRequestHeaders...)
 
-	// Business logic: enrich the upstream request with function-specific headers
+	// Business logic: enrich the upstream request with container-specific headers
 	setLanguageHeader(req.Header, r.Header)
 	setAllowedModelsHeader(req.Header, r.Header)
 
@@ -142,8 +142,8 @@ func (fw *flushWriter) Write(p []byte) (int, error) {
 	return n, err
 }
 
-// setLanguageHeader forwards the client's language preference to the function.
-// The function uses this to template the system prompt.
+// setLanguageHeader forwards the client's language preference to the container.
+// The container uses this to template the system prompt.
 func setLanguageHeader(dst, src http.Header) {
 	if language := src.Get("X-Language"); language != "" {
 		dst.Set("X-Language", language)
@@ -151,7 +151,7 @@ func setLanguageHeader(dst, src http.Header) {
 }
 
 // setAllowedModelsHeader determines which models the user can access based on
-// their tier and tells the function via a header. The function enforces this
+// their tier and tells the container via a header. The container enforces this
 // against the model in the (encrypted) request body.
 func setAllowedModelsHeader(dst, src http.Header) {
 	userTier := src.Get("X-User-Tier")

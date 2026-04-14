@@ -21,7 +21,7 @@ func main() {
 
 	http.HandleFunc("/v1/chat/completions", chatHandler)
 
-	log.Println("Function server listening on :8080")
+	log.Println("Container server listening on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
