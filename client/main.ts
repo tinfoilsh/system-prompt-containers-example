@@ -17,15 +17,15 @@ const languageSelect = requireElement<HTMLSelectElement>("#languageSelect");
 const modelSelect = requireElement<HTMLSelectElement>("#modelSelect");
 const paidToggle = requireElement<HTMLInputElement>("#paidToggle");
 
-// Configure the client to attest the FUNCTION enclave (not inference directly).
-// The SDK verifies the function's code via configRepo, fetches its HPKE key,
-// and encrypts request bodies end-to-end to the function enclave.
+// Configure the client to attest the CONTAINER enclave (not inference directly).
+// The SDK verifies the container's code via configRepo, fetches its HPKE key,
+// and encrypts request bodies end-to-end to the container enclave.
 // The proxy sees only ciphertext and forwards it along with plaintext headers.
 const client = new SecureClient({
   baseURL: "http://localhost:8080/",
   attestationBundleURL: "http://localhost:8080",
-  configRepo: "tinfoilsh/system-prompt-functions-example", // verify the function's code
-  enclaveURL: "https://system-prompt-injector.tinfoil.functions.tinfoil.sh", // function enclave
+  configRepo: "tinfoilsh/system-prompt-containers-example", // verify the container's code
+  enclaveURL: "https://system-prompt-injector.containers.tinfoil.sh", // container enclave
 });
 
 function appendMessage(text: string, role: Role): HTMLDivElement {
@@ -139,7 +139,7 @@ async function sendMessage(): Promise<void> {
   sendButton.disabled = true;
 
   try {
-    // Wait for function enclave attestation to complete.
+    // Wait for container enclave attestation to complete.
     // TinfoilError: transient network issue -- just call ready() again to retry.
     // AttestationError: security issue -- call reset() to get a fresh bundle and re-verify.
     try {

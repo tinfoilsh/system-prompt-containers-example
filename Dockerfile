@@ -2,16 +2,16 @@ FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
-COPY function/go.mod ./
+COPY container/go.mod ./
 RUN go mod download
 
-COPY function/ .
-RUN CGO_ENABLED=0 GOOS=linux go build -o function .
+COPY container/ .
+RUN CGO_ENABLED=0 GOOS=linux go build -o container .
 
 FROM alpine:latest
 
 WORKDIR /app
-COPY --from=builder /app/function .
+COPY --from=builder /app/container .
 
 EXPOSE 8080
-ENTRYPOINT ["./function"]
+ENTRYPOINT ["./container"]
