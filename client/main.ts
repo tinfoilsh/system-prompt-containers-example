@@ -25,7 +25,7 @@ const client = new SecureClient({
   baseURL: "http://localhost:8080/",
   attestationBundleURL: "http://localhost:8080",
   configRepo: "tinfoilsh/system-prompt-containers-example", // verify the container's code
-  enclaveURL: "https://system-prompt-injector.containers.tinfoil.sh", // container enclave
+  enclaveURL: "https://system-prompt-injector.tinfoil.containers.tinfoil.dev", // container enclave
 });
 
 function appendMessage(text: string, role: Role): HTMLDivElement {
