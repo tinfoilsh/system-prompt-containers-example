@@ -62,7 +62,11 @@ The root `Dockerfile` builds only the container server. The proxy and client run
 
 1. Configure Tinfoil secrets:
    - `SYSTEM_PROMPT_TEMPLATE` — e.g. `You are a helpful assistant. Always respond in {{LANGUAGE}}.`
-2. Push a version tag to trigger `.github/workflows/build.yml`, which builds and pushes the Docker image to GHCR, then creates a Sigstore attestation via `tinfoilsh/pri-build-action`
+2. Run `.github/workflows/tinfoil-build.yml` from GitHub, or use:
+   ```bash
+   gh workflow run tinfoil-build.yml -f version=v0.0.16
+   ```
+   This builds and pushes the Docker image to GHCR, updates `tinfoil-config.yml`, creates the version tag, and then triggers `.github/workflows/tinfoil-release.yml` to measure and publish the container attestation.
 
 ## Structure
 
