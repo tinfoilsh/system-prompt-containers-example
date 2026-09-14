@@ -1,6 +1,6 @@
 # System Prompt Injector
 
-With the [basic encrypted proxy](https://github.com/tinfoilsh/encrypted-request-proxy-example), your backend forwards encrypted inference requests without being able to read or modify the request body. But sometimes you need to operate on the request body, such as, inject a system prompt, enforce which models a user can access, or transform the request before it reaches inference.
+With the [basic encrypted proxy](https://github.com/tinfoilsh/examples/tree/main/encrypted-request-proxy-example), your backend forwards encrypted inference requests without being able to read or modify the request body. But sometimes you need to operate on the request body, such as, inject a system prompt, enforce which models a user can access, or transform the request before it reaches inference.
 
 ## The solution: Preprocessing via Tinfoil Containers
 
