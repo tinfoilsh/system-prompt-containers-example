@@ -54,7 +54,7 @@ npx vite
 
 Opens at `http://localhost:5173`. Pick a language and model from the dropdowns and send a message. The client attests the container enclave, encrypts the request body end-to-end, and streams the response.
 
-Update `enclaveURL` and `configRepo` in `client/main.ts` to point to your deployed container.
+Update `ENCLAVE_HOST` and `PIN` in `client/main.ts` to point to your deployed container.
 
 ## Deploying the container
 
